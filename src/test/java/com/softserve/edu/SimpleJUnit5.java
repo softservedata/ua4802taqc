@@ -5,15 +5,22 @@ import org.junit.jupiter.api.*;
 /**
  * Unit test for simple App.
  */
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class SimpleJUnit5 {
 
+    public SimpleJUnit5() {
+        System.out.println("\t\t\t***Constructor SimpleJUnit5() done");
+    }
+
     @BeforeAll
-    public static void setup() {
+    //public static void setup() {
+    public void setup() { // @TestInstance(TestInstance.Lifecycle.PER_CLASS)
         System.out.println("@BeforeAll executed");
     }
 
     @AfterAll
-    public static void tear() {
+    //public static void tear() {
+    public void tear() { // @TestInstance(TestInstance.Lifecycle.PER_CLASS)
         System.out.println("@AfterAll executed");
     }
 
