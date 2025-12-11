@@ -2,6 +2,9 @@ package com.softserve.edu3green;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,6 +13,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.PageFactory;
 
 import java.time.Duration;
+import java.util.stream.Stream;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class GreencityTest {
@@ -107,6 +111,55 @@ public class GreencityTest {
         // Get userName
         WebElement userName = driver.findElement(By.cssSelector("li.body-2.ubs-user-name"));
         Assertions.assertEquals("Qwerty1", userName.getText());
+        presentationSleep(2); // For Presentation ONLY
+        // logout
+        userName.click();
+        presentationSleep(2); // For Presentation ONLY
+        //
+        driver.findElement(By.cssSelector("li[aria-label='sign-out']>a")).click();
+        presentationSleep(2); // For Presentation ONLY
+        // Check sign up button
+        WebElement signup = driver.findElement(By.cssSelector("div.ubs-header_sign-up-btn>span"));
+        Assertions.assertTrue(signup.getText().toLowerCase().trim().contains("sign up"));
+        presentationSleep(); // For Presentation ONLY
+    }
+
+    private static Stream<Arguments> greencityUsers() {
+        return Stream.of(
+                Arguments.of("exqcndksfmcgtmtmdt@enotj.com", "Qwerty_1", "Qwerty1")
+        );
+    }
+
+    @ParameterizedTest(name = "[{index}] email={0}, password={1}, username={2}")
+    @MethodSource("greencityUsers")
+    public void checkLoginParameters(String email, String password, String username) {
+        // Check Language
+        WebElement language = driver.findElement(By.cssSelector("li.lang-option>span"));
+        System.out.println("\t\t\tlanguage.getText() = " + language.getText());
+        if (language.getText().toLowerCase().contains("u")) {
+            language.click();
+            driver.findElement(By.cssSelector("li.lang-option.ng-star-inserted>span")).click();
+        }
+        presentationSleep(); // For Presentation ONLY
+        // Open Login form
+        driver.findElement(By.cssSelector("img.ubs-header-sing-in-img.ng-star-inserted")).click();
+        presentationSleep(); // For Presentation ONLY
+        // Type email
+        driver.findElement(By.id("email")).click();
+        driver.findElement(By.id("email")).clear();
+        driver.findElement(By.id("email")).sendKeys(email);
+        presentationSleep(); // For Presentation ONLY
+        // Type Password
+        driver.findElement(By.id("password")).click();
+        driver.findElement(By.id("password")).clear();
+        driver.findElement(By.id("password")).sendKeys(password);
+        presentationSleep(); // For Presentation ONLY
+        // Click login button
+        driver.findElement(By.cssSelector("button.ubsStyle")).click();
+        presentationSleep(2); // For Presentation ONLY
+        // Get userName
+        WebElement userName = driver.findElement(By.cssSelector("li.body-2.ubs-user-name"));
+        Assertions.assertEquals(username, userName.getText());
         presentationSleep(2); // For Presentation ONLY
         // logout
         userName.click();
