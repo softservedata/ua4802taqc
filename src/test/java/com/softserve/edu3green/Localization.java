@@ -2,7 +2,7 @@ package com.softserve.edu3green;
 
 public enum Localization {
     EN("e","sign up"),
-    UA("u", "Зареєструватися ");
+    UA("u", "Зареєструватися");
 
     private String shortText;
     private String signupText;
@@ -18,5 +18,13 @@ public enum Localization {
 
     public String getSignupText() {
         return signupText;
+    }
+
+    @Override
+    public String toString() {
+        return "Localization{" +
+                "shortText='" + shortText + '\'' +
+                ", signupText='" + signupText + '\'' +
+                '}';
     }
 }
