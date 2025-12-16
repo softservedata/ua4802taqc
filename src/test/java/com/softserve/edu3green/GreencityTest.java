@@ -210,7 +210,7 @@ public class GreencityTest {
             driver.findElement(By.id("close")).click();
             driver.switchTo().defaultContent();
             //
-            //presentationSleep(2); // For Presentation ONLY
+            // presentationSleep(2); // For Presentation ONLY
             //
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
