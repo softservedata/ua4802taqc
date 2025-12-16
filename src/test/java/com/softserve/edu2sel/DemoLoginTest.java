@@ -4,13 +4,12 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.time.Duration;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class TeachLoginTest {
+public class DemoLoginTest {
 
     private final Long ONE_SECOND_DELAY = 1000L;
     private final Long IMPLICITLY_WAIT_SECONDS = 10L;
