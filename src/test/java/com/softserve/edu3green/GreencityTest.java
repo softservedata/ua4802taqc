@@ -10,16 +10,20 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.stream.Stream;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class GreencityTest {
 
     private static final String BASE_URL = "https://www.greencity.cx.ua/#/ubs";
-    private static final long IMPLICITLY_WAIT_SECONDS = 10L;
+    private static final long IMPLICITLY_WAIT_SECONDS = 4L; //10L;
     private static final long ONE_SECOND_DELAY = 1000;
     private WebDriver driver;
 
@@ -38,8 +42,8 @@ public class GreencityTest {
 
     @BeforeAll
     public void setup() {
-        WebDriverManager.chromedriver().setup();
-        //WebDriverManager.firefoxdriver().setup();
+        //WebDriverManager.chromedriver().setup();
+        WebDriverManager.firefoxdriver().setup();
         //
         // https://peter.sh/experiments/chromium-command-line-switches/
         //ChromeOptions options = new ChromeOptions();
@@ -47,8 +51,8 @@ public class GreencityTest {
         //options.addArguments("--headless");
         //driver = new ChromeDriver(options);
         //
-        driver = new ChromeDriver();
-        //driver = new FirefoxDriver();
+        //driver = new ChromeDriver();
+        driver = new FirefoxDriver();
         //
         //driver.manage().timeouts().implicitlyWait(IMPLICITLY_WAIT_SECONDS, TimeUnit.SECONDS);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(IMPLICITLY_WAIT_SECONDS)); // 0 by default
@@ -195,7 +199,25 @@ public class GreencityTest {
         presentationSleep(); // For Presentation ONLY
         // Open Login form
         driver.findElement(By.cssSelector("img.ubs-header-sing-in-img.ng-star-inserted")).click();
+        presentationSleep(4); // For Presentation ONLY
+        // Check iframe exist
+        List<WebElement> iframes = driver.findElements(By.cssSelector("iframe"));
+        System.out.println("iframes.size() = " + iframes.size());
         presentationSleep(); // For Presentation ONLY
+        //
+        if (iframes.size() > 0) {
+            driver.switchTo().frame(iframes.get(0));
+            driver.findElement(By.id("close")).click();
+            driver.switchTo().defaultContent();
+            //
+            //presentationSleep(2); // For Presentation ONLY
+            //
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            wait.until(ExpectedConditions.stalenessOf(iframes.get(0)));
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(IMPLICITLY_WAIT_SECONDS));
+        }
+        //
         // Type email
         driver.findElement(By.id("email")).click();
         driver.findElement(By.id("email")).clear();
