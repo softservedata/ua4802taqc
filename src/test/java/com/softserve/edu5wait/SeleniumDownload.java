@@ -131,10 +131,10 @@ public class SeleniumDownload {
         js.executeScript("arguments[0].click();", browserstack);
         presentationSleep(); // For Presentation ONLY
         //
-        //js.executeScript("alert('Welcome to TAQC');");
+        js.executeScript("alert('Welcome to TAQC');");
         presentationSleep(4); // For Presentation ONLY
         //
-        //driver.switchTo().alert().accept();
+        driver.switchTo().alert().accept();
         presentationSleep(); // For Presentation ONLY
     }
 }
