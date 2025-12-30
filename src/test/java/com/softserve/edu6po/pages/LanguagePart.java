@@ -11,6 +11,8 @@ public abstract class LanguagePart {
     //
     private WebElement languageDropdown;
     //private GuestComponents guestComponents;
+    //private WebElement userNameLabel;
+    //private ProfileComponent profileComponent;
 
     public LanguagePart(WebDriver driver) {
         this.driver = driver;
@@ -103,8 +105,7 @@ public abstract class LanguagePart {
 
     // singnin
     public WebElement getSingnin() {
-        createGuestComponents().getSigninlink();
-        return null;
+        return createGuestComponents().getSigninlink();
     }
 
     public void clickSingnin() {
@@ -113,15 +114,18 @@ public abstract class LanguagePart {
 
     // singnup
     public WebElement getSingnup() {
-        createGuestComponents().getSignuplink();
-        return null;
+        return createGuestComponents().getSignuplink();
+    }
+
+    public String getSingnupText() {
+        return getSingnup().getText().trim();
     }
 
     public void clickSingnup() {
         getSingnup().click();
     }
 
-    // username
+    // usernameLabel
     public WebElement getUsernameLabel() {
         return driver.findElement(By.cssSelector("li.body-2[class*='user-name']"));
     }
@@ -134,10 +138,16 @@ public abstract class LanguagePart {
         getUsernameLabel().click();
     }
 
+    // profileComponent
+    public ProfileComponent createProfileComponent() {
+        clickUsernameLabel();
+        return new ProfileComponent(driver);
+    }
+
     // signout
     public WebElement getSignoutLink() {
-        clickUsernameLabel();
-        return driver.findElement(By.xpath("//li[@class='drop-down-item']/a[contains(text(),'Sign out')]"));
+        return createProfileComponent().getSignoutlink();
+        // return driver.findElement(By.xpath("//li[@class='drop-down-item']/a[contains(text(),'Sign out')]"));
     }
 
     public String getSignoutLinkText() {
@@ -153,6 +163,16 @@ public abstract class LanguagePart {
     public SigninPage gotoSigninPage() {
         clickSingnin();
         return new SigninPage(driver);
+    }
+
+    public HomeUbsPage gotoSignoutUbs() {
+        clickSignoutLink();
+        return new HomeUbsPage(driver);
+    }
+
+    public HomeGreencityPage gotoSignoutGreencity() {
+        clickSignoutLink();
+        return new HomeGreencityPage(driver);
     }
 
 }

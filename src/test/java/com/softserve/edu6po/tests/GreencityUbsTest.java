@@ -2,6 +2,7 @@ package com.softserve.edu6po.tests;
 
 import com.softserve.edu6po.pages.HomeGreencityPage;
 import com.softserve.edu6po.pages.HomeUbsPage;
+import com.softserve.edu6po.pages.UnsuccessfulSigninPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -96,18 +97,40 @@ public class GreencityUbsTest {
         Assertions.assertTrue(homeGreencityPage.isEnglishEnable());
     }
 
-    private static Stream<Arguments> greencityUsers() {
+    private static Stream<Arguments> greencityValidUsers() {
         return Stream.of(
                 Arguments.of("exqcndksfmcgtmtmdt@enotj.com", "Qwerty_1", "Qwerty1")
         );
     }
 
-    //@ParameterizedTest(name = "[{index}] email={0}, password={1}, username={2}")
-    @MethodSource("greencityUsers")
-    public void checkLoginParameters(String email, String password, String username) {
+    @ParameterizedTest(name = "[{index}] email={0}, password={1}, username={2}")
+    @MethodSource("greencityValidUsers")
+    public void checkSuccessfulLoginParameters(String email, String password, String username) {
         HomeUbsPage homeUbsPage = loadUbsApplication()
                 .gotoSigninPage()
                 .loginUbs(email, password);
         Assertions.assertEquals(username, homeUbsPage.getUsernameLabelText());
+        //
+        homeUbsPage = homeUbsPage
+                .gotoSignoutUbs()
+                .switchToEnglishLanguage();
+        Assertions.assertEquals("sign up", homeUbsPage.getSingnupText().toLowerCase());
+    }
+
+    private static Stream<Arguments> greencityInvalidUsers() {
+        return Stream.of(
+                Arguments.of("hahaha@enotj.com", "Qwerty_1", "Qwerty1")
+        );
+    }
+
+    @ParameterizedTest(name = "[{index}] email={0}, password={1}, username={2}")
+    @MethodSource("greencityInvalidUsers")
+    public void checkUnsuccessfulLoginParameters(String email, String password, String username) {
+        UnsuccessfulSigninPage unsuccessfulSigninPage = loadUbsApplication()
+                .switchToEnglishLanguage()
+                .gotoSigninPage()
+                .invalidLogin(email, password);
+        Assertions.assertEquals(UnsuccessfulSigninPage.BAD_EMAIL_PASSWORD,
+                unsuccessfulSigninPage.getAlertErrorLabelText());
     }
 }

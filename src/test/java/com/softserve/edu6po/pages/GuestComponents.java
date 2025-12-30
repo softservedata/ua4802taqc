@@ -17,7 +17,8 @@ public class GuestComponents {
     }
 
     private void initElements() {
-        signinlink = driver.findElement(By.cssSelector("a[class*='sign-in']"));
+        //signinlink = driver.findElement(By.cssSelector("a[class*='sign-in']"));
+        signinlink = driver.findElement(By.cssSelector("img.ubs-header-sing-in-img.ng-star-inserted"));
         signuplink = driver.findElement(By.cssSelector("div[class*='sign-up']"));
     }
 
