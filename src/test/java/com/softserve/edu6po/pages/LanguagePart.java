@@ -1,6 +1,7 @@
 package com.softserve.edu6po.pages;
 
-import com.softserve.edu6po.tests.GreencityUbsTest;
+import com.softserve.edu6po.data.Languages;
+import com.softserve.edu6po.tests.GreencityUbsClassicTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -20,7 +21,7 @@ public abstract class LanguagePart {
     }
 
     private void initElements() {
-        GreencityUbsTest.presentationSleep(2);
+        GreencityUbsClassicTest.presentationSleep(2);
         languageDropdown = driver.findElement(By.cssSelector("li.lang-option>span"));
      }
 
@@ -93,6 +94,15 @@ public abstract class LanguagePart {
     protected void chooseUkrainianLanguage() {
         if (isEnglishEnable()) {
             clickUkrainianLabel();
+        }
+    }
+
+    protected void chooseLanguage(Languages languages) {
+        if (isEnglishEnable() && languages.getShortText().equals("u")) {
+            clickUkrainianLabel();
+        }
+        if (isUkrainianEnable() && languages.getShortText().equals("e")) {
+            clickEnglishLabel();
         }
     }
 

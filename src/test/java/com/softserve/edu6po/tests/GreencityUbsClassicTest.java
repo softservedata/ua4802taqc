@@ -10,13 +10,12 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.time.Duration;
 import java.util.stream.Stream;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class GreencityUbsTest {
+public class GreencityUbsClassicTest {
     private static final String BASE_URL = "https://www.greencity.cx.ua/#/ubs";
     private static final long IMPLICITLY_WAIT_SECONDS = 4L; //10L;
     private static final long ONE_SECOND_DELAY = 1000;

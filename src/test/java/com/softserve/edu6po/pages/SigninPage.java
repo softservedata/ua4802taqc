@@ -1,5 +1,6 @@
 package com.softserve.edu6po.pages;
 
+import com.softserve.edu6po.data.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -124,15 +125,30 @@ public class SigninPage {
         return new HomeUbsPage(driver);
     }
 
+    public HomeUbsPage loginUbs(User validUser) {
+        enterCredention(validUser.getEmail(), validUser.getPassword());
+        return new HomeUbsPage(driver);
+    }
+
     public HomeGreencityPage loginGreencity(String email, String password) {
-        //public HomeUbsPage loginUbs(User user) {
+        //public HomeGreencityPage loginGreencity(User user) {
         enterCredention(email, password);
+        return new HomeGreencityPage(driver);
+    }
+
+    public HomeGreencityPage loginGreencity(User validUser) {
+        enterCredention(validUser.getEmail(), validUser.getPassword());
         return new HomeGreencityPage(driver);
     }
 
     //public SigninPage invalidLogin(User invalidUser) {
     public UnsuccessfulSigninPage invalidLogin(String invalidEmail, String invalidPassword) {
         enterCredention(invalidEmail, invalidPassword);
+        return new UnsuccessfulSigninPage(driver);
+    }
+
+    public UnsuccessfulSigninPage invalidLogin(User invalidUser) {
+        enterCredention(invalidUser.getEmail(), invalidUser.getPassword());
         return new UnsuccessfulSigninPage(driver);
     }
 

@@ -1,5 +1,6 @@
 package com.softserve.edu6po.pages;
 
+import com.softserve.edu6po.data.Languages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -43,6 +44,12 @@ public class HomeUbsPage extends UbsMenuPart {
 
     public HomeUbsPage switchToUkrainianLanguage() {
         chooseUkrainianLanguage();
+        return new HomeUbsPage(driver);
+    }
+
+
+    public HomeUbsPage switchLanguage(Languages languages) {
+        chooseLanguage(languages);
         return new HomeUbsPage(driver);
     }
 
