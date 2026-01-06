@@ -28,6 +28,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 class RunnerExtension implements AfterTestExecutionCallback {
+    protected static Throwable throwable;
 
     @Override
     public void afterTestExecution(ExtensionContext context) throws Exception {
@@ -36,6 +37,8 @@ class RunnerExtension implements AfterTestExecutionCallback {
         System.out.println("\t\t\t\tTest context.getDisplayName(): "+ context.getDisplayName());
         //
         UbsTestRunner.isTestSuccessful = !testResult;
+        //
+        throwable = context.getExecutionException().orElse(null);
     }
 }
 
@@ -132,6 +135,7 @@ public abstract class UbsTestRunner {
         if (!isTestSuccessful) {
             logger.error("Test_Display_Name = " + testInfo.getDisplayName() + " failed");
             logger.error("Test_Name = " + testInfo.getTestMethod() + " failed");
+            logger.error("Exception: " + RunnerExtension.throwable.getMessage());
             //
             System.out.println("\t\t\tgetTestMethod = " + testInfo.getTestMethod());
             System.out.println("\t\t\tgetDisplayName = " + testInfo.getDisplayName());
