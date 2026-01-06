@@ -2,11 +2,15 @@ package com.softserve.edu6po.pages;
 
 import com.softserve.edu6po.data.Languages;
 import com.softserve.edu6po.tests.GreencityUbsClassicTest;
+import com.softserve.training.Calc;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class LanguagePart {
+    public final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     protected WebDriver driver;
     //
@@ -171,6 +175,7 @@ public abstract class LanguagePart {
     // PageObject Business Operation
 
     public SigninPage gotoSigninPage() {
+        logger.debug("Start gotoSigninPage()");
         clickSingnin();
         return new SigninPage(driver);
     }

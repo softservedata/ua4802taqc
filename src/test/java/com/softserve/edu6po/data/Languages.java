@@ -1,6 +1,7 @@
 package com.softserve.edu6po.data;
 
 public enum Languages {
+    DEFAULT("e","sign up"),
     EN("e","sign up"),
     UA("u", "зареєструватися");
 

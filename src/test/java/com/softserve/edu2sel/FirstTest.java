@@ -2,10 +2,7 @@ package com.softserve.edu2sel;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
@@ -63,6 +60,17 @@ public class FirstTest {
         Thread.sleep(1000); // For Presentation
         //
         Assertions.assertEquals("https://www.apple.com/mac/", apple);
+    }
+
+    @Test
+    public void checkNewWindow() throws InterruptedException {
+        driver.get("https://www.bing.com/");
+        Thread.sleep(2000); // For Presentation
+        //
+        //driver.switchTo().newWindow(WindowType.TAB);
+        //driver.get("https://www.google.com/");
+        ((JavascriptExecutor) driver).executeScript("window.open('https://www.google.com')");
+        Thread.sleep(4000); // For Presentation
     }
 
 }

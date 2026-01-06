@@ -82,6 +82,7 @@ public abstract class UbsMenuPart extends LanguagePart {
     // PageObject Business Operation
 
     public HomeGreencityPage gotoHomeGreencityPage() {
+        logger.debug("Start gotoHomeGreencityPage()");
         clickGreenCity();
         return new HomeGreencityPage(driver);
     }

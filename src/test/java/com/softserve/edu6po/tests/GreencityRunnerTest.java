@@ -18,6 +18,7 @@ public class GreencityRunnerTest extends UbsTestRunner {
 
     @Test
     public void smokeTest() {
+        logger.info("Start smokeTest()");
         HomeGreencityPage homeGreencityPage = loadUbsApplication()
                 .switchToEnglishLanguage()
                 .switchToUkrainianLanguage()
@@ -50,6 +51,7 @@ public class GreencityRunnerTest extends UbsTestRunner {
     @MethodSource("greencityValidUsers")
     //public void checkSuccessfulLoginParameters(String email, String password, String username) {
     public void checkSuccessfulLoginParameters(User validUser, Languages languages) {
+        logger.info("Start checkSuccessfulLoginParameters( " + validUser + ", " + languages + " )");
         HomeUbsPage homeUbsPage = loadUbsApplication()
                 .gotoSigninPage()
                 .loginUbs(validUser);
@@ -79,6 +81,7 @@ public class GreencityRunnerTest extends UbsTestRunner {
     @MethodSource("greencityInvalidUsers")
     //public void checkUnsuccessfulLoginParameters(String email, String password, String username) {
     public void checkUnsuccessfulLoginParameters(User invalidUser) {
+        logger.info("Start checkUnsuccessfulLoginParameters( " + invalidUser + " )");
         UnsuccessfulSigninPage unsuccessfulSigninPage = loadUbsApplication()
                 .switchToEnglishLanguage()
                 .gotoSigninPage()

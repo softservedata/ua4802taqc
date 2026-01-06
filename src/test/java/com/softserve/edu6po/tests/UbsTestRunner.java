@@ -12,6 +12,8 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,6 +23,8 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 class RunnerExtension implements AfterTestExecutionCallback {
@@ -46,6 +50,8 @@ public abstract class UbsTestRunner {
     private static final String BASE_URL = "https://www.greencity.cx.ua/#/ubs";
     private static final long IMPLICITLY_WAIT_SECONDS = 4L; //10L;
     private static final long ONE_SECOND_DELAY = 1000;
+    //
+    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
     private WebDriver driver;
 
     public static void presentationSleep() {
@@ -72,7 +78,12 @@ public abstract class UbsTestRunner {
     }
 
     private void takePageSource() {
-        String currentTime = new SimpleDateFormat(TIME_TEMPLATE).format(new Date());
+        //String currentTime = new SimpleDateFormat(TIME_TEMPLATE).format(new Date());
+        //
+        LocalDateTime localDate = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(TIME_TEMPLATE);
+        String currentTime = localDate.format(formatter);
+        //
         String pageSource = driver.getPageSource();
         byte[] strToBytes = pageSource.getBytes();
         Path path = Paths.get("./" + currentTime + "_" + "_source.html.txt");
@@ -119,6 +130,9 @@ public abstract class UbsTestRunner {
         presentationSleep(4); // For Presentation ONLY
         //
         if (!isTestSuccessful) {
+            logger.error("Test_Display_Name = " + testInfo.getDisplayName() + " failed");
+            logger.error("Test_Name = " + testInfo.getTestMethod() + " failed");
+            //
             System.out.println("\t\t\tgetTestMethod = " + testInfo.getTestMethod());
             System.out.println("\t\t\tgetDisplayName = " + testInfo.getDisplayName());
             takeScreenShot();
@@ -132,6 +146,7 @@ public abstract class UbsTestRunner {
         JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
         javascriptExecutor.executeScript(String.format(LOCALSTORAGE_REMOVE, "accessToken"));
         javascriptExecutor.executeScript(String.format(LOCALSTORAGE_REMOVE, "refreshToken"));
+        // Delete VIEWSTATE, URL
     }
 
     protected HomeUbsPage loadUbsApplication() {
