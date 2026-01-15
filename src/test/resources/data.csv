@@ -1,3 +1,4 @@
+sep=,
 input, expected
 text, result
 test, test
