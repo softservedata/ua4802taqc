@@ -1,69 +1,25 @@
-package com.softserve.edu7api;
+package com.softserve.edu8api;
 
 import com.google.gson.Gson;
+import com.softserve.edu7api.GreencityLogin;
 import okhttp3.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-
-public class GreencityTest {
+public class HabitsTest {
 
     @Test
-    public void checkSignin() throws IOException {
-        //
-        OkHttpClient client = new OkHttpClient();
-        RequestBody requestBody;
-        Request request;
-        Response response;
-        String resultJson;
-        //
-        // Login
-        /*
-        String jsonBody =  new StringBuilder()
-                .append("{")
-                .append("\"email\":\"veieqvynpcmtwamqgv@xfavaj.com\",")
-                .append("\"password\":\"Qwerty_1\",")
-                .append("\"projectName\":\"GREENCITY\"")
-                .append("}").toString();
-        */
-        //
-        String jsonBody = """
-                {
-                  "email": "veieqvynpcmtwamqgv@xfavaj.com",
-                  "password": "Qwerty_1",
-                  "projectName": "GREENCITY"
-                }
-                """;
-        //
-        requestBody = RequestBody.create(jsonBody,
-                MediaType.parse("application/json; charset=utf-8"));
-        //
-        request = new Request.Builder()
-                .url("https://greencity-user.greencity.cx.ua/ownSecurity/signIn")
-                //.addHeader("Content-Type", "application/json")
-                .post(requestBody)
-                .build();
-        //
-        response = client.newCall(request).execute();
-        //
-        resultJson = response.body().string();
-        System.out.println("resultJson = " + resultJson);
-        //
-        Assertions.assertTrue(response.isSuccessful());
-        Assertions.assertEquals(200, response.code());
-    }
-
-    @Test
-    public void checkLoginEvents() throws Exception {
+    public void checkMyHabits() throws Exception {
         Gson gson = new Gson();
         //
         OkHttpClient client = new OkHttpClient();
         RequestBody requestBody;
         Request request;
         Response response;
+        //
         GreencityLogin greencityLogin;
-        GreencityAllEvents greencityAllEvents;
+        HabitsPage habitsPage;
+        //
         String resultJson;
         String token;
         //
@@ -94,10 +50,10 @@ public class GreencityTest {
         Assertions.assertEquals(286, greencityLogin.getUserId());
         Assertions.assertEquals("Qwerty1", greencityLogin.getName());
         //
-        // Get all Events
-        HttpUrl.Builder urlBuilder = HttpUrl.parse("https://greencity.greencity.cx.ua/events").newBuilder();
+        // Get My Habits
+        HttpUrl.Builder urlBuilder = HttpUrl.parse("https://greencity.greencity.cx.ua/habit/my").newBuilder();
         urlBuilder.addQueryParameter("page", "0");
-        urlBuilder.addQueryParameter("size", "5");
+        urlBuilder.addQueryParameter("size", "20");
         String url = urlBuilder.build().toString();
         //
         request = new Request
@@ -109,11 +65,11 @@ public class GreencityTest {
                 .build();
         response = client.newCall(request).execute();
         resultJson = response.body().string();
-        greencityAllEvents = gson.fromJson(resultJson, GreencityAllEvents.class);
+        habitsPage = gson.fromJson(resultJson, HabitsPage.class);
         //
         Assertions.assertTrue(response.isSuccessful());
         System.out.println("resultJson: " + resultJson);
-        System.out.println("greencityAllEvents: " + greencityAllEvents);
+        System.out.println("greencityMyHabits: " + habitsPage);
         //
     }
 }
